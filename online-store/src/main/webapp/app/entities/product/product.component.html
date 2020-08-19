@@ -35,18 +35,30 @@
                         </a>
                         <small *ngIf="product.productCategory">
                             <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">
-                                {{ product.productCategory?.id }}
+                                Category: {{ product.productCategory?.id }}
                             </a>
                         </small>
                     </div>
                     <small class="mb-1">{{ product.description }}</small>
-                    <p class="mb-1">Price: {{product.price }}</p>
+                    <p class="mb-1">Price: {{product.price | currency: 'USD' }}</p>
                     <small>
                         Size:
                         <span jhiTranslate="{{ 'storeApp.Size.' + product.size }}">
                         {{ product.size }}
                     </span>
                     </small>
+                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                        <button type="submit" [routerLink]="['/product',product.id,'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(product)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
                 </div>
             </a>
         </div>
