@@ -22,24 +22,32 @@
         <div class="list-group">
             <a class="list-group-item list-group-item-action flex-columnalign-items-start"
                *ngFor="let product of products; trackBy: trackId">
-                <div class="d-flex w-100 justify-content-between">
-                    <a [routerLink]="['/product', product.id, 'view']">
-                        <h5 class="mb-1">{{ product.name }}</h5>
-                    </a>
-                    <small *ngIf="product.productCategory">
-                        <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">
-                            {{ product.productCategory?.id }}
-                        </a>
-                    </small>
+                <div class="row">
+                    <div class="col-2 col-xs-12 justify-content-center">
+                        <img [src]="'data:' + product.imageContentType + ';base64,' + product.image"
+                             style="max-height:150px;" alt="product image"/>
+                    </div>
                 </div>
-                <small class="mb-1">{{ product.description }}</small>
-                <p class="mb-1">Price: {{product.price }}</p>
-                <small>
-                    Size:
-                    <span jhiTranslate="{{ 'storeApp.Size.' + product.size }}">
+                <div class="col col-xs-12">
+                    <div class="d-flex w-100 justify-content-between">
+                        <a [routerLink]="['/product', product.id, 'view']">
+                            <h5 class="mb-1">{{ product.name }}</h5>
+                        </a>
+                        <small *ngIf="product.productCategory">
+                            <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">
+                                {{ product.productCategory?.id }}
+                            </a>
+                        </small>
+                    </div>
+                    <small class="mb-1">{{ product.description }}</small>
+                    <p class="mb-1">Price: {{product.price }}</p>
+                    <small>
+                        Size:
+                        <span jhiTranslate="{{ 'storeApp.Size.' + product.size }}">
                         {{ product.size }}
                     </span>
-                </small>
+                    </small>
+                </div>
             </a>
         </div>
     </div>
