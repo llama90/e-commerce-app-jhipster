@@ -164,8 +164,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   protected paginateProducts(data: IProduct[] | null, headers: HttpHeaders): void {
-    this.links = this.parseLinks.parse(<string>headers.get('link'));
-    this.totalItems = parseInt(<string>headers.get('X-Total-Count'), 10);
+    this.links = this.parseLinks.parse(headers.get('link') || '');
+    this.totalItems = parseInt(headers.get('X-Total-Count') || '', 10);
     this.products = data;
   }
 }
