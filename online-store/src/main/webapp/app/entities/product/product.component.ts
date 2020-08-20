@@ -39,7 +39,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     protected parseLinks: JhiParseLinks
   ) {}
 
-  loadAll() {
+  loadAll(): void {
     this.productService
       .query({
         page: this.page - 1,
@@ -64,7 +64,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       );
   }
 
-  transition() {
+  transition(): void {
     this.router.navigate(['/product'], {
       queryParams: {
         page: this.page,
@@ -75,7 +75,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.loadAll();
   }
 
-  clear() {
+  clear(): void {
     this.page = 0;
     this.router.navigate([
       '/product',
@@ -163,7 +163,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.ngbPaginationPage = this.page ?? 1;
   }
 
-  protected paginateProducts(data: IProduct[] | null, headers: HttpHeaders) {
+  protected paginateProducts(data: IProduct[] | null, headers: HttpHeaders): void {
     this.links = this.parseLinks.parse(<string>headers.get('link'));
     this.totalItems = parseInt(<string>headers.get('X-Total-Count'), 10);
     this.products = data;
