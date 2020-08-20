@@ -2,6 +2,7 @@ package com.github.lucaseo90.store.web.rest;
 
 import com.github.lucaseo90.store.StoreApp;
 import com.github.lucaseo90.store.domain.Shipment;
+import com.github.lucaseo90.store.domain.Invoice;
 import com.github.lucaseo90.store.repository.ShipmentRepository;
 import com.github.lucaseo90.store.service.ShipmentService;
 
@@ -66,6 +67,16 @@ public class ShipmentResourceIT {
             .trackingCode(DEFAULT_TRACKING_CODE)
             .date(DEFAULT_DATE)
             .details(DEFAULT_DETAILS);
+        // Add required entity
+        Invoice invoice;
+        if (TestUtil.findAll(em, Invoice.class).isEmpty()) {
+            invoice = InvoiceResourceIT.createEntity(em);
+            em.persist(invoice);
+            em.flush();
+        } else {
+            invoice = TestUtil.findAll(em, Invoice.class).get(0);
+        }
+        shipment.setInvoice(invoice);
         return shipment;
     }
     /**
@@ -79,6 +90,16 @@ public class ShipmentResourceIT {
             .trackingCode(UPDATED_TRACKING_CODE)
             .date(UPDATED_DATE)
             .details(UPDATED_DETAILS);
+        // Add required entity
+        Invoice invoice;
+        if (TestUtil.findAll(em, Invoice.class).isEmpty()) {
+            invoice = InvoiceResourceIT.createUpdatedEntity(em);
+            em.persist(invoice);
+            em.flush();
+        } else {
+            invoice = TestUtil.findAll(em, Invoice.class).get(0);
+        }
+        shipment.setInvoice(invoice);
         return shipment;
     }
 
