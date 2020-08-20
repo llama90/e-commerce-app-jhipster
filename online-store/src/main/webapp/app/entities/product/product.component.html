@@ -27,37 +27,38 @@
                         <img [src]="'data:' + product.imageContentType + ';base64,' + product.image"
                              style="max-height:150px;" alt="product image"/>
                     </div>
-                </div>
-                <div class="col col-xs-12">
-                    <div class="d-flex w-100 justify-content-between">
-                        <a [routerLink]="['/product', product.id, 'view']">
-                            <h5 class="mb-1">{{ product.name }}</h5>
-                        </a>
-                        <small *ngIf="product.productCategory">
-                            <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">
-                                Category: {{ product.productCategory?.id }}
+
+                    <div class="col col-xs-12">
+                        <div class="d-flex w-100 justify-content-between">
+                            <a [routerLink]="['/product', product.id, 'view']">
+                                <h5 class="mb-1">{{ product.name }}</h5>
                             </a>
-                        </small>
-                    </div>
-                    <small class="mb-1">{{ product.description }}</small>
-                    <p class="mb-1">Price: {{product.price | currency: 'USD' }}</p>
-                    <small>
-                        Size:
-                        <span jhiTranslate="{{ 'storeApp.Size.' + product.size }}">
+                            <small *ngIf="product.productCategory">
+                                <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">
+                                    Category: {{ product.productCategory?.id }}
+                                </a>
+                            </small>
+                        </div>
+                        <small class="mb-1">{{ product.description }}</small>
+                        <p class="mb-1">Price: {{product.price | currency: 'USD' }}</p>
+                        <small>
+                            Size:
+                            <span jhiTranslate="{{ 'storeApp.Size.' + product.size }}">
                         {{ product.size }}
                     </span>
-                    </small>
-                    <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
-                        <button type="submit" [routerLink]="['/product',product.id,'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit" (click)="delete(product)"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
+                        </small>
+                        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                            <button type="submit" [routerLink]="['/product',product.id,'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <button type="submit" (click)="delete(product)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </a>
