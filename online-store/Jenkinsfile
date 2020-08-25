@@ -1,12 +1,32 @@
 #!/usr/bin/env groovy
 
 node {
+
+    parameters {
+        choice(
+            choices: ['on' , 'off'],
+            description: '',
+            name: 'JAVA_VERSION')
+        choice(
+            choices: ['on' , 'off'],
+            description: '',
+            name: 'BACKEND_TEST')
+        choice(
+            choices: ['on' , 'off'],
+            description: '',
+            name: 'FRONTEND_TEST')
+    }
+
     stage('checkout') {
         checkout scm
     }
 
     stage('check java') {
-        sh "java -version"
+        if(params.JAVA_VERSION == 'on') {
+            sh "java -version"
+        } else {
+            echo "[stage] check java is skipped"
+        }
     }
 
     stage('clean') {
@@ -22,22 +42,30 @@ node {
     }
 
     stage('backend tests') {
-        try {
-            sh "cd online-store && ./gradlew test integrationTest -PnodeInstall --no-daemon"
-        } catch(err) {
-            throw err
-        } finally {
-            junit '**/build/**/TEST-*.xml'
+        if (params.BACKEND_TEST == 'on') {
+            try {
+                sh "cd online-store && ./gradlew test integrationTest -PnodeInstall --no-daemon"
+            } catch (err) {
+                throw err
+            } finally {
+                junit '**/build/**/TEST-*.xml'
+            }
+        } else {
+            echo "[stage] backend tests is skipped"
         }
     }
 
     stage('frontend tests') {
-        try {
-            sh "cd online-store && ./gradlew npm_run_test -PnodeInstall --no-daemon"
-        } catch(err) {
-            throw err
-        } finally {
-            junit '**/build/test-results/TESTS-*.xml'
+        if (params.FRONTEND_TEST == 'on') {
+            try {
+                sh "cd online-store && ./gradlew npm_run_test -PnodeInstall --no-daemon"
+            } catch (err) {
+                throw err
+            } finally {
+                junit '**/build/test-results/TESTS-*.xml'
+            }
+        } else {
+            echo "[stage] frontend tests is skipped"
         }
     }
 
