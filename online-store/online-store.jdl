@@ -88,7 +88,7 @@ relationship OneToMany {
     ProductOrder{orderItem} to OrderItem{order(code) required},
     ProductOrder{invoice} to Invoice{order(code) required},
     Invoice{shipment} to Shipment{invoice(code) required},
-    ProductCategory{product} to Product{productCategory}
+    ProductCategory{product} to Product{productCategory(name)}
 }
 
 service * with serviceClass
