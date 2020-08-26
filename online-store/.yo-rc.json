@@ -38,6 +38,9 @@
     "enableTranslation": true,
     "nativeLanguage": "en",
     "languages": ["en", "ko"],
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "quiet-reaches-65887",
+    "herokuDeployType": "jar",
+    "herokuJavaVersion": "11"
   }
 }
