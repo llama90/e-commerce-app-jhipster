@@ -129,6 +129,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void createCustomer() throws Exception {
         int databaseSizeBeforeCreate = customerRepository.findAll().size();
         // Create the Customer
@@ -154,6 +155,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void createCustomerWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = customerRepository.findAll().size();
 
@@ -174,6 +176,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkFirstNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = customerRepository.findAll().size();
         // set the field null
@@ -193,6 +196,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkLastNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = customerRepository.findAll().size();
         // set the field null
@@ -212,6 +216,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkGenderIsRequired() throws Exception {
         int databaseSizeBeforeTest = customerRepository.findAll().size();
         // set the field null
@@ -231,6 +236,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkEmailIsRequired() throws Exception {
         int databaseSizeBeforeTest = customerRepository.findAll().size();
         // set the field null
@@ -250,6 +256,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkPhoneIsRequired() throws Exception {
         int databaseSizeBeforeTest = customerRepository.findAll().size();
         // set the field null
@@ -269,6 +276,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkAddressLine1IsRequired() throws Exception {
         int databaseSizeBeforeTest = customerRepository.findAll().size();
         // set the field null
@@ -288,6 +296,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkCityIsRequired() throws Exception {
         int databaseSizeBeforeTest = customerRepository.findAll().size();
         // set the field null
@@ -307,6 +316,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkCountryIsRequired() throws Exception {
         int databaseSizeBeforeTest = customerRepository.findAll().size();
         // set the field null
@@ -326,6 +336,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void getAllCustomers() throws Exception {
         // Initialize the database
         customerRepository.saveAndFlush(customer);
@@ -345,7 +356,7 @@ public class CustomerResourceIT {
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
             .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)));
     }
-    
+
     @Test
     @Transactional
     public void getCustomer() throws Exception {
@@ -377,6 +388,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void updateCustomer() throws Exception {
         // Initialize the database
         customerService.save(customer);
@@ -420,6 +432,7 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void updateNonExistingCustomer() throws Exception {
         int databaseSizeBeforeUpdate = customerRepository.findAll().size();
 
