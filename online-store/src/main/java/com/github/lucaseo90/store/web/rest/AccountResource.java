@@ -61,7 +61,6 @@ public class AccountResource {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
@@ -117,7 +116,6 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user login wasn't found.
      */
     @PostMapping("/account")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
@@ -139,7 +137,6 @@ public class AccountResource {
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the new password is incorrect.
      */
     @PostMapping(path = "/account/change-password")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
         if (!checkPasswordLength(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
@@ -153,7 +150,6 @@ public class AccountResource {
      * @param mail the mail of the user.
      */
     @PostMapping(path = "/account/reset-password/init")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void requestPasswordReset(@RequestBody String mail) {
         Optional<User> user = userService.requestPasswordReset(mail);
         if (user.isPresent()) {
@@ -173,7 +169,6 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the password could not be reset.
      */
     @PostMapping(path = "/account/reset-password/finish")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
         if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
             throw new InvalidPasswordException();
