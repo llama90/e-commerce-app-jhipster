@@ -104,6 +104,7 @@ public class ProductResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void createProduct() throws Exception {
         int databaseSizeBeforeCreate = productRepository.findAll().size();
         // Create the Product
@@ -126,6 +127,7 @@ public class ProductResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void createProductWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = productRepository.findAll().size();
 
@@ -219,7 +221,7 @@ public class ProductResourceIT {
             .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
     }
-    
+
     @Test
     @Transactional
     public void getProduct() throws Exception {
@@ -248,6 +250,7 @@ public class ProductResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void updateProduct() throws Exception {
         // Initialize the database
         productService.save(product);
@@ -285,6 +288,7 @@ public class ProductResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void updateNonExistingProduct() throws Exception {
         int databaseSizeBeforeUpdate = productRepository.findAll().size();
 
@@ -301,6 +305,7 @@ public class ProductResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void deleteProduct() throws Exception {
         // Initialize the database
         productService.save(product);

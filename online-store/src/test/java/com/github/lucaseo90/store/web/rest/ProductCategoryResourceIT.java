@@ -82,6 +82,7 @@ public class ProductCategoryResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void createProductCategory() throws Exception {
         int databaseSizeBeforeCreate = productCategoryRepository.findAll().size();
         // Create the ProductCategory
@@ -100,6 +101,7 @@ public class ProductCategoryResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void createProductCategoryWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = productCategoryRepository.findAll().size();
 
@@ -120,6 +122,7 @@ public class ProductCategoryResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void checkNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = productCategoryRepository.findAll().size();
         // set the field null
@@ -139,6 +142,7 @@ public class ProductCategoryResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void getAllProductCategories() throws Exception {
         // Initialize the database
         productCategoryRepository.saveAndFlush(productCategory);
@@ -151,7 +155,7 @@ public class ProductCategoryResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
-    
+
     @Test
     @Transactional
     public void getProductCategory() throws Exception {
@@ -176,6 +180,7 @@ public class ProductCategoryResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void updateProductCategory() throws Exception {
         // Initialize the database
         productCategoryService.save(productCategory);
@@ -205,6 +210,7 @@ public class ProductCategoryResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"}, password = "admin")
     public void updateNonExistingProductCategory() throws Exception {
         int databaseSizeBeforeUpdate = productCategoryRepository.findAll().size();
 
