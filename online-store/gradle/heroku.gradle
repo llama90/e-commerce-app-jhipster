@@ -1,6 +1,0 @@
-apply plugin: "com.heroku.sdk.heroku-gradle"
-
-heroku {
-  appName = "quiet-reaches-65887"
-  buildpacks = ["heroku/jvm"]
-}

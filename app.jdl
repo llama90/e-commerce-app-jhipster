@@ -1,0 +1,219 @@
+application {
+  config {
+  applicationType gateway
+  authenticationType jwt
+  baseName store
+  blueprints []
+  buildTool gradle
+  cacheProvider hazelcast
+  clientFramework angularX
+  clientPackageManager npm
+  clientTheme none
+  creationTimestamp 1597482453989
+  databaseType sql
+  devDatabaseType h2Disk
+  dtoSuffix DTO
+  embeddableLaunchScript false
+  enableHibernateCache true
+  enableSwaggerCodegen false
+  enableTranslation true
+  jhiPrefix jhi
+  jhipsterVersion "6.10.1"
+  jwtSecretKey "NTViYTViNmNhN2ViMmIyYjc5YmI3NjRhNTljYjkxODkwYmUxN2YzNjM0N2Q4M2VlOGNmY2M5MDQyMDgxODc0ODg4YzQ3OWRmNWY3NGM0MjE0MTMzNGI4NGQ1ZWFkZjhkNjA0YTI3NzIzY2ExOTc1NGFlZGM3YmQ1NjA3NmM2OTk="
+  languages [en, ko]
+  messageBroker false
+  nativeLanguage en
+  otherModules []
+  packageName com.github.lucaseo90.store
+  prodDatabaseType mysql
+  searchEngine false
+  serverPort 8080
+  serviceDiscoveryType eureka
+  skipClient false
+  skipServer false
+  skipUserManagement false
+  testFrameworks [protractor]
+  useSass true
+  websocket spring-websocket
+  }
+
+  entities *
+}
+
+application {
+  config {
+    baseName invoice,
+    applicationType microservice,
+    packageName com.github.lucaseo90.store,
+    serviceDiscoveryType eureka,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    buildTool gradle,
+    serverPort 8081,
+    languages [en, ko]
+  }
+  entities Invoice, Shipment
+}
+
+application {
+  config {
+    baseName notification,
+    applicationType microservice,
+    packageName com.github.lucaseo90.store,
+    serviceDiscoveryType eureka,
+    authenticationType jwt,
+    databaseType mongodb,
+    cacheProvider no,
+    enableHibernateCache false,
+    buildTool gradle,
+    serverPort 8082,
+    languages [en, ko]
+  }
+  entities Notification
+}
+
+entity Customer {
+  firstName String required,
+  lastName String required,
+  gender Gender required,
+  email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+  phone String required,
+  addressLine1 String required,
+  addressLine2 String,
+  city String required,
+  country String required
+}
+entity Invoice {
+  code String required,
+  date Instant required,
+  details String,
+  status InvoiceStatus required,
+  paymentMethod PaymentMethod required,
+  paymentDate Instant required,
+  paymentAmount BigDecimal required,
+  productOrderId Long required
+}
+entity OrderItem {
+  quantity Integer required min(0),
+  totalPrice BigDecimal required min(0),
+  status OrderItemStatus required
+}
+entity Product {
+  name String required,
+  description String,
+  price BigDecimal required min(0),
+  size Size required,
+  image ImageBlob
+}
+entity ProductCategory {
+  name String required,
+  description String
+}
+entity ProductOrder {
+  placedDate Instant required,
+  status OrderStatus required,
+  code String required
+}
+entity Shipment {
+  trackingCode String,
+  date Instant required,
+  details String
+}
+enum Gender {
+  MALE,
+  FEMALE,
+  OTHER
+}
+enum InvoiceStatus {
+  PAID,
+  ISSUED,
+  CANCELLED
+}
+enum PaymentMethod {
+  CREDIT_CARD,
+  CASH_ON_DELIVERY,
+  PAYPAL
+}
+enum OrderItemStatus {
+  AVALIABLE,
+  OUT_OF_STOCK,
+  BACK_ORDER
+}
+enum Size {
+  S,
+  M,
+  L,
+  XL,
+  XXL
+}
+enum OrderStatus {
+  COMPLETED,
+  PENDING,
+  CANCELLED
+}
+
+relationship OneToOne {
+  Customer{user(login) required} to User
+}
+relationship OneToMany {
+  ProductOrder{orderItem} to OrderItem{order(code) required},
+  ProductCategory{product} to Product{productCategory(name)},
+  Customer{order} to ProductOrder{customer(email) required},
+  Invoice{shipment} to Shipment{invoice(code) required}
+}
+relationship ManyToOne {
+  OrderItem{product(name) required} to Product
+}
+
+/* Entity for Invoice microservice */
+entity Invoice {
+  code String required
+  date Instant required
+  details String
+  status InvoiceStatus required
+  paymentMethod PaymentMethod required
+  paymentDate Instant required
+  paymentAmount BigDecimal required
+}
+
+enum InvoiceStatus {
+  PAID, ISSUED, CANCELLED
+}
+
+entity Shipment {
+  tackingCode String
+  date Instant required
+  details String
+}
+
+enum PaymentMethod {
+  CREDIT_CARD, CASH_ON_DELIVERY, PAYPAL
+}
+
+relationship OneToMany {
+  Invoice{shipment} to Shipment{invoice(code) required}
+}
+
+service Invoice, Shipment with serviceClass
+paginate Invoice, Shipment with pagination
+microservice Invoice, Shipment with invoice
+
+/* Entities for notification microservice */
+entity Notification {
+  date Instant required
+  details String
+  sentDate Instant required
+  format NotificationType required
+  userId Long required
+  productId Long required
+}
+
+enum NotificationType {
+  EMAIL, SMS, PARCEL
+}
+
+microservice Notification with notification
+
+/* General options */
+service * with serviceClass
+paginate Customer, Invoice, OrderItem, Product, ProductOrder, Shipment with pagination
